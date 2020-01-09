@@ -2,13 +2,18 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 import random as rd
+import numpy as np
+import vispy as vs
+from vispy import app, gloo
+from vispy.util.transforms import perspective, translate, rotate
+from vispy import scene
 
 resolucion=100
 
 def obtenerCampo():
     return np.zeros((resolucion,resolucion,resolucion),dtype=int)
 
-def mostrarCampo(campo3D,colorObstáculos):
+def mostrarCampo(campo3D,colorObstaculos):
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
@@ -17,13 +22,31 @@ def mostrarCampo(campo3D,colorObstáculos):
     y = puntos[1]
     z = puntos[2]
 
-    ax.scatter(x, y, z, c=colorObstáculos, marker='o')
+    ax.scatter(x, y, z, c=colorObstaculos, marker='o')
 
     ax.set_xlabel('X Label')
     ax.set_ylabel('Y Label')
     ax.set_zlabel('Z Label')
 
     plt.show()
+
+c = scene.SceneCanvas(keys='interactive', show=True)
+def mostrarCampoGPU(campo3D, colorObtaculo):
+
+    view = c.central_widget.add_view()
+    view.camera = 'fly'
+    view.camera.depth = 10
+
+    pos = np.array([(0, 0, 0), (2, 1, 1), (1,2,6)])
+    s = scene.Markers(pos=pos, parent=view.scene)
+    s.interactive = True
+    c.app.run()
+
+@c.connect
+def on_mouse_press(event):
+   vs.view.interactive = False
+   print(c.visual_at(event.pos))
+   vs.view.interactive = True
 
 def insertarObstaculos(array3d,cantidad="MEDIO"):
     x,y,z=array3d.shape
@@ -113,15 +136,57 @@ def crecerCubo(array3d,x,y,z,valorCrecer):
                 if 0<i < X and 0<j<Y and 0<k<Z:
                     array3d[i][j][k]=1
 
+def productoPunto(pI, pD):
+
+    result = 0
+    ind = 0
+    while ind < 3:
+        result += pI[ind]*pD[ind]
+
+    return result
+
+def vectorizar(puntoAnterio, puntoActual, puntoPrueba):
+
+    arrAnt = np.array(puntoAnterio)
+    arrAct = np.array(puntoActual)
+    arrPrue = np.array(puntoPrueba)
+
+    return [arrAct-arrAnt, arrPrue-arrAct]
+
+def calcularRuta(campo3D, puntoInicio, puntoFin):
+
+    i1 = puntoInicio[0]
+    i2 = puntoInicio[1]
+    i3 = puntoInicio[2]
+
+    f1 = puntoFin[0]
+    f2 = puntoFin[1]
+    f3 = puntoFin[2]
+    puntoAnt = puntoInicio
+    puntoActual = puntoInicio
+    puntosVecinos = buscarVecinos(campo3D, puntoActual)
+
+    listaPuntos = []
+
+    for puntoPrueba in puntosVecinos:
+        pUno, pDos = vectorizar(puntoAnt, puntoActual, puntoPrueba)
+
+        if productoPunto(pUno, pDos) >= 0:
+                """Clacular la distancia de este punto valido a la meta y añadir a la lista de tuplas"""
+
 
 
 
 campo=obtenerCampo()
 insertarObstaculos(campo,"SATURADO")
-mostrarCampo(campo,"r")
+#mostrarCampo(campo,"r")
 campo=obtenerCampo()
 insertarObstaculosCumulos(campo,"SATURADO")
-mostrarCampo(campo,"g")
+#mostrarCampo(campo,"g")
 campo=obtenerCampo()
 insertarObstaculosCubos(campo,"SATURADO")
-mostrarCampo(campo,"b")
+#mostrarCampo(campo,"b")
+
+
+
+
