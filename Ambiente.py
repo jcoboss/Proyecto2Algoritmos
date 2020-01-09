@@ -2,11 +2,6 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 import random as rd
-import numpy as np
-import vispy as vs
-from vispy import app, gloo
-from vispy.util.transforms import perspective, translate, rotate
-from vispy import scene
 
 resolucion=100
 
@@ -29,24 +24,6 @@ def mostrarCampo(campo3D,colorObstaculos):
     ax.set_zlabel('Z Label')
 
     plt.show()
-
-c = scene.SceneCanvas(keys='interactive', show=True)
-def mostrarCampoGPU(campo3D, colorObtaculo):
-
-    view = c.central_widget.add_view()
-    view.camera = 'fly'
-    view.camera.depth = 10
-
-    pos = np.array([(0, 0, 0), (2, 1, 1), (1,2,6)])
-    s = scene.Markers(pos=pos, parent=view.scene)
-    s.interactive = True
-    c.app.run()
-
-@c.connect
-def on_mouse_press(event):
-   vs.view.interactive = False
-   print(c.visual_at(event.pos))
-   vs.view.interactive = True
 
 def insertarObstaculos(array3d,cantidad="MEDIO"):
     x,y,z=array3d.shape
@@ -90,6 +67,32 @@ def crecer(array3d,x,y,z,valorCrecer):
         for vecino in listaVecinos:
             valorCrecer = valorCrecer - 1
             crecer(array3d,vecino[0],vecino[1],vecino[2],valorCrecer)
+
+def buscarVecinos2(campo3D, punto):
+
+    limitX, limitY, limitZ = campo3D.shape
+    lista = []
+
+    posZ = punto[2] -1
+    for z in range(3):
+
+        posX = punto[0] - 1
+        for x in range(3):
+
+            posY = punto[1] - 1
+            for y in range(3):
+
+                excesoX = 0 <= x < limitX
+                excesoY = 0 <= x < limitX
+                excesoZ = 0 <= z < limitZ
+                noIgual = posX != punto[0] and posY != punto[1] and posZ != punto[2]
+                if excesoX and excesoY and excesoZ and noIgual:
+                    puntoNuevo = [posX, posY, posZ]
+                    lista.append(puntoNuevo)
+                posY += 1
+            posX += 1
+        posZ += 1
+    return lista
 
 def buscarVecinos(array3D,punto):
     vecinos=[]
@@ -142,6 +145,7 @@ def productoPunto(pI, pD):
     ind = 0
     while ind < 3:
         result += pI[ind]*pD[ind]
+        ind+=1
 
     return result
 
@@ -153,40 +157,72 @@ def vectorizar(puntoAnterio, puntoActual, puntoPrueba):
 
     return [arrAct-arrAnt, arrPrue-arrAct]
 
-def calcularRuta(campo3D, puntoInicio, puntoFin):
+def calcularDistancia(puntoInicio:list, puntoDestino:list):
 
-    i1 = puntoInicio[0]
-    i2 = puntoInicio[1]
-    i3 = puntoInicio[2]
+    result:float = 0.0
+    for ind in range(3):
+        result += (puntoInicio[ind]-puntoDestino[ind])**2
 
-    f1 = puntoFin[0]
-    f2 = puntoFin[1]
-    f3 = puntoFin[2]
-    puntoAnt = puntoInicio
-    puntoActual = puntoInicio
-    puntosVecinos = buscarVecinos(campo3D, puntoActual)
+    return result
 
-    listaPuntos = []
+def calcularRuta(campo3D, puntoInicio:list, puntoFin:list):
 
-    for puntoPrueba in puntosVecinos:
-        pUno, pDos = vectorizar(puntoAnt, puntoActual, puntoPrueba)
+    puntoAnt:list = puntoInicio
+    puntoActual:list = puntoInicio
 
-        if productoPunto(pUno, pDos) >= 0:
-                """Clacular la distancia de este punto valido a la meta y añadir a la lista de tuplas"""
+    ruta:list = []
+    while puntoActual != puntoFin:
 
+        ruta.append(puntoActual)
+        puntosVecinos: list = buscarVecinos2(campo3D, puntoActual)
 
+        listaPuntos = list()
+        print("Ruta pracial -> " +str(ruta))
+        print("Vecinos", str(puntosVecinos))
+
+        for puntoPrueba in puntosVecinos:
+
+            if puntoPrueba != puntoFin:
+                vectores: list = vectorizar(puntoAnt, puntoActual, puntoPrueba)
+                pUno: list = vectores[0]
+                pDos: list = vectores[1]
+                avance: bool = productoPunto(pUno, pDos) >= 0
+                disponble: bool = campo3D[puntoPrueba[0], puntoPrueba[1], puntoPrueba[2]] == 0
+                if avance and disponble:
+                    print("Agregue -> " + str(puntoPrueba))
+                    distancia = calcularDistancia(puntoPrueba, puntoFin)
+                    tupla: tuple = (distancia, puntoPrueba)
+                    if tupla not in listaPuntos: listaPuntos.append(tupla)
+            else:
+                listaPuntos.append(tuple(0,puntoFin))
+
+        listaPuntos.sort(key=lambda tup: tup[0], reverse=True)
+        print("Tuplas -> " + str(listaPuntos))
+        print("Ordene")
+        puntoMasCercano: list = list(listaPuntos.pop()[1])
+
+        if puntoMasCercano == puntoFin:
+            ruta.append(puntoFin)
+            break
+        else:
+            puntoAnt = puntoActual
+            puntoActual = puntoMasCercano
+
+    return ruta
 
 
 campo=obtenerCampo()
-insertarObstaculos(campo,"SATURADO")
+#insertarObstaculos(campo,"SATURADO")
 #mostrarCampo(campo,"r")
-campo=obtenerCampo()
-insertarObstaculosCumulos(campo,"SATURADO")
+#campo=obtenerCampo()
+#insertarObstaculosCumulos(campo,"SATURADO")
 #mostrarCampo(campo,"g")
-campo=obtenerCampo()
+#campo=obtenerCampo()
 insertarObstaculosCubos(campo,"SATURADO")
-#mostrarCampo(campo,"b")
+mostrarCampo(campo,"b")
 
+#ruta = calcularRuta(campo, [1,1,1], [5,5,4])
+#print(ruta)
 
 
 
