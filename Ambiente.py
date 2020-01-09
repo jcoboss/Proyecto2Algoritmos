@@ -1,0 +1,127 @@
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+import numpy as np
+import random as rd
+
+resolucion=100
+
+def obtenerCampo():
+    return np.zeros((resolucion,resolucion,resolucion),dtype=int)
+
+def mostrarCampo(campo3D,colorObstáculos):
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    puntos=np.where((campo3D==1))
+    x = puntos[0]
+    y = puntos[1]
+    z = puntos[2]
+
+    ax.scatter(x, y, z, c=colorObstáculos, marker='o')
+
+    ax.set_xlabel('X Label')
+    ax.set_ylabel('Y Label')
+    ax.set_zlabel('Z Label')
+
+    plt.show()
+
+def insertarObstaculos(array3d,cantidad="MEDIO"):
+    x,y,z=array3d.shape
+    factor=10000
+    if cantidad == "SATURADO":
+        factor=1000
+    elif cantidad == "SOBRESATURADO":
+        factor=500
+
+    nElementos=array3d.size//factor
+
+    for i in range(nElementos):
+        a=rd.randint(0,x-1)
+        b=rd.randint(0,y-1)
+        c=rd.randint(0,z-1)
+        array3d[a][b][c]=1
+
+def insertarObstaculosCumulos(array3d,cantidad="MEDIO"):
+    x,y,z=array3d.shape
+    factor=25
+    if cantidad == "SATURADO":
+        factor=50
+    elif cantidad == "SOBRESATURADO":
+        factor=100
+
+    for i in range(factor):
+        a = rd.randint(0, x - 1)
+        b = rd.randint(0, y - 1)
+        c = rd.randint(0, z - 1)
+        crearCumulo(array3d,a,b,c)
+
+def crearCumulo(array3d,x,y,z):
+    factor=rd.randint(3,9)
+    crecer(array3d,x,y,z,factor)
+
+def crecer(array3d,x,y,z,valorCrecer):
+    array3d[x][y][z]=1
+    if valorCrecer>0:
+        listaVecinos=buscarVecinos(array3d,[x,y,z])
+        rd.shuffle(listaVecinos)
+        for vecino in listaVecinos:
+            valorCrecer = valorCrecer - 1
+            crecer(array3d,vecino[0],vecino[1],vecino[2],valorCrecer)
+
+def buscarVecinos(array3D,punto):
+    vecinos=[]
+    X,Y,Z=array3D.shape
+
+    for i in range(len(punto)):
+        puntoMas=punto.copy()
+        puntoMenos =punto.copy()
+        puntoMas[i]=punto[i]+1
+        puntoMenos[i]=punto[i]-1
+
+        x, y, z = puntoMas
+        x1, y1, z1 = puntoMenos
+        if 0<x < X and 0<y<Y and 0<z <Z:
+            vecinos.append(tuple(puntoMas))
+        if 0 < x1 < X and 0 < y1 < Y and 0 < z1 < Z:
+            vecinos.append(tuple(puntoMenos))
+    return vecinos
+
+def insertarObstaculosCubos(array3d,cantidad="MEDIO"):
+    x,y,z=array3d.shape
+    factor=12
+    if cantidad == "SATURADO":
+        factor=25
+    elif cantidad == "SOBRESATURADO":
+        factor=50
+
+    for i in range(factor):
+        a = rd.randint(0, x - 1)
+        b = rd.randint(0, y - 1)
+        c = rd.randint(0, z - 1)
+        crearCubo(array3d,a,b,c)
+
+def crearCubo(array3d,x,y,z):
+    factor = rd.randint(5, 15)
+    crecerCubo(array3d,x,y,z,factor)
+
+def crecerCubo(array3d,x,y,z,valorCrecer):
+
+    X,Y,Z=array3d.shape
+    for i in range(x,x+valorCrecer):
+        for j in range(y,y+valorCrecer):
+            for k in range(z,z+valorCrecer):
+                if 0<i < X and 0<j<Y and 0<k<Z:
+                    array3d[i][j][k]=1
+
+
+
+
+campo=obtenerCampo()
+insertarObstaculos(campo,"SATURADO")
+mostrarCampo(campo,"r")
+campo=obtenerCampo()
+insertarObstaculosCumulos(campo,"SATURADO")
+mostrarCampo(campo,"g")
+campo=obtenerCampo()
+insertarObstaculosCubos(campo,"SATURADO")
+mostrarCampo(campo,"b")
