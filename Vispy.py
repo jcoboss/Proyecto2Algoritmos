@@ -9,18 +9,23 @@ import Ambiente as ab
 
 # create data cloud
 
-campo = ab.obtenerCampo()
-ab.insertarObstaculosCubos(campo)
+campo=ab.obtenerCampo(100) #matriz de 100x100x100
+ab.insertarObstaculosCumulos(campo, "SOBRESATURADO") #se insertan 100 cubos con arista 7
+
 
 x, y, z = np.where((campo==1))
-
 
 lista = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
 
 pos = np.array(lista)
+#print(pos)
+puntosRuta=np.array((ab.calcularRuta(campo,[0,0,0],[98,98,98])))
+#print(puntosRuta)
+pos2=list()
 
-print(pos)
-
+pos2.extend(list(pos))
+pos2.extend(puntosRuta.tolist())
+print(pos2)
 #
 # Make a canvas and add simple view
 #
@@ -44,7 +49,11 @@ view.camera = cam2
 scatter = visuals.Markers(parent=view.scene)
 
 scatter.antialias = 1
-scatter.set_data(pos=pos, edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.6, 0.5, 0.4, 1.0), size=15)
+scatter.set_data(pos=np.array(pos2), edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.6, 0.5, 0.4, 1.0), size=10)
+
+#guardar Puntos ruta
+#scatter.set_data(pos=puntosRuta, edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.9, 0.9, 0.9, 1.0), size=15)
+##fin guardar puntos ruta
 scatter.set_gl_state(depth_test=True, blend=True, blend_func=('src_alpha', 'one_minus_src_alpha'))
 
 # Add axes
