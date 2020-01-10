@@ -10,11 +10,8 @@ import Ambiente as ab
 # create data cloud
 
 campo = ab.obtenerCampo()
-#ab.insertarObstaculosCubos(campo)
+ab.insertarObstaculosCubos(campo)
 
-
-pos = np.zeros((100, 3), dtype=int)
-print(pos)
 x, y, z = np.where((campo==1))
 
 
