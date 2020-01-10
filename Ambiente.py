@@ -2,6 +2,9 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 import random as rd
+import numba
+from timeit import default_timer as timer
+from numba import jit, cuda
 
 resolucion=100
 
@@ -83,9 +86,9 @@ def buscarVecinos2(campo3D, punto):
             for y in range(3):
 
                 excesoX = 0 <= x < limitX
-                excesoY = 0 <= x < limitX
+                excesoY = 0 <= y < limitY
                 excesoZ = 0 <= z < limitZ
-                noIgual = posX != punto[0] and posY != punto[1] and posZ != punto[2]
+                noIgual = posX != punto[0] or posY != punto[1] or posZ != punto[2]
                 if excesoX and excesoY and excesoZ and noIgual:
                     puntoNuevo = [posX, posY, posZ]
                     lista.append(puntoNuevo)
@@ -181,57 +184,50 @@ def calcularRuta(campo3D, puntoInicio:list, puntoFin:list):
     puntoActual:list = puntoInicio
 
     ruta:list = []
+    veces = 0
     while puntoActual != puntoFin:
 
         ruta.append(puntoActual)
         puntosVecinos: list = buscarVecinos2(campo3D, puntoActual)
 
         listaPuntos = list()
-        print("Ruta pracial -> " +str(ruta))
-        print("Vecinos", str(puntosVecinos))
 
         for puntoPrueba in puntosVecinos:
 
-            if puntoPrueba != puntoFin:
-                vectores: list = vectorizar(puntoAnt, puntoActual, puntoPrueba)
-                pUno: list = vectores[0]
-                pDos: list = vectores[1]
-                avance: bool = productoPunto(pUno, pDos) >= 0
-                disponble: bool = campo3D[puntoPrueba[0], puntoPrueba[1], puntoPrueba[2]] == 0
-                if avance and disponble:
-                    print("Agregue -> " + str(puntoPrueba))
+            vectores: list = vectorizar(puntoAnt, puntoActual, puntoPrueba)
+            pUno: list = vectores[0]
+            pDos: list = vectores[1]
+            avance: bool = productoPunto(pUno, pDos) >= 0
+            disponble: bool = campo3D[puntoPrueba[0], puntoPrueba[1], puntoPrueba[2]] == 0
+            if avance and disponble:
+
                     distancia = calcularDistancia(puntoPrueba, puntoFin)
                     tupla: tuple = (distancia, puntoPrueba)
                     if tupla not in listaPuntos: listaPuntos.append(tupla)
-            else:
-                listaPuntos.append(tuple(0,puntoFin))
 
-        listaPuntos.sort(key=lambda tup: tup[0], reverse=True)
-        print("Tuplas -> " + str(listaPuntos))
-        print("Ordene")
+        listaPuntos.sort(reverse=True)
         puntoMasCercano: list = list(listaPuntos.pop()[1])
 
-        if puntoMasCercano == puntoFin:
-            ruta.append(puntoFin)
-            break
-        else:
-            puntoAnt = puntoActual
-            puntoActual = puntoMasCercano
-
+        puntoAnt = puntoActual
+        puntoActual = puntoMasCercano
+        veces+=1
+    ruta.append(puntoFin)
     return ruta
 
 
-campo=obtenerCampo()
+#campo=obtenerCampo()
 #insertarObstaculos(campo,"SATURADO")
 #mostrarCampo(campo,"r")
 #campo=obtenerCampo()
 #insertarObstaculosCumulos(campo,"SATURADO")
 #mostrarCampo(campo,"g")
 #campo=obtenerCampo()
-insertarObstaculosCubos(campo,"SATURADO")
-mostrarCampo(campo,"b")
-
-#ruta = calcularRuta(campo, [1,1,1], [5,5,4])
+#insertarObstaculosCubos(campo,"SATURADO")
+#mostrarCampo(campo,"b")
+#start = timer()
+#ruta = calcularRuta(campo, [1,1,1], [85,19,65])
+#print("with CPU:", timer() - start)
+#print(buscarVecinos2(campo, [5,5,5]))
 #print(ruta)
 
 
