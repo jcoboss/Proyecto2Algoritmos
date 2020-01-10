@@ -18,6 +18,8 @@ lista = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
 
 pos = np.array(lista)
 
+puntosRuta=np.array(zip(*(ab.calcularRuta(campo,[0,0,0],[99,99,99]))))
+
 
 #
 # Make a canvas and add simple view
@@ -43,6 +45,9 @@ scatter = visuals.Markers(parent=view.scene)
 
 scatter.antialias = 1
 scatter.set_data(pos=pos, edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.6, 0.5, 0.4, 1.0), size=15)
+#guardar Puntos ruta
+scatter.set_data(pos=puntosRuta, edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.9, 0.9, 0.9, 1.0), size=15)
+##fin guardar puntos ruta
 scatter.set_gl_state(depth_test=True, blend=True, blend_func=('src_alpha', 'one_minus_src_alpha'))
 
 # Add axes
