@@ -133,11 +133,21 @@ def crearCubo(array3d,x,y,z):
 def crecerCubo(array3d,x,y,z,valorCrecer):
 
     X,Y,Z=array3d.shape
-    for i in range(x,x+valorCrecer):
+    if x+valorCrecer<X and y+valorCrecer<Y and z+valorCrecer<Z :
+        for i in range(x,x+valorCrecer):
+            for j in range(y,y+valorCrecer):
+                array3d[i][j][z] = 1
+                array3d[i][j][z+valorCrecer] = 1
+
+        for i in range(x,x+valorCrecer):
+            for k in range(z,z+valorCrecer):
+                array3d[i][y][k] = 1
+                array3d[i][y+valorCrecer][k] = 1
+
         for j in range(y,y+valorCrecer):
             for k in range(z,z+valorCrecer):
-                if 0<i < X and 0<j<Y and 0<k<Z:
-                    array3d[i][j][k]=1
+                array3d[x][j][k] = 1
+                array3d[x+valorCrecer][j][k] = 1
 
 def productoPunto(pI, pD):
 
