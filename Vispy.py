@@ -7,7 +7,7 @@ import Ambiente as ab
 
 # create data cloud
 campo = ab.obtenerCampo()
-ab.insertarObstaculosCubos(campo)
+ab.insertarObstaculosCumulos(campo,"SOBRESATURADO")
 
 
 pos = np.zeros((100, 3), dtype=int)
@@ -47,3 +47,4 @@ axis = visuals.XYZAxis(parent=view.scene)
 
 if __name__ == '__main__' and sys.flags.interactive == 0:
     canvas.app.run()
+
