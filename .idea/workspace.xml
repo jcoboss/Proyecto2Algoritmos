@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecc77d01-46b9-41ab-869c-d2fda1f98897" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Ambiente.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ambiente.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avance(main).py" beforeDir="false" afterPath="$PROJECT_DIR$/Avance(main).py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Vispy.py" beforeDir="false" afterPath="$PROJECT_DIR$/Vispy.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,10 +18,22 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ambiente.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3621">
-              <caret line="217" selection-start-line="217" selection-end-line="217" />
+            <state relative-caret-position="221">
+              <caret line="116" column="27" lean-forward="true" selection-start-line="116" selection-start-column="27" selection-end-line="116" selection-end-column="27" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#715#1040#0" />
+                <element signature="e#1103#1405#0" />
+                <element signature="e#1443#1498#0" />
+                <element signature="e#1543#1816#0" />
+                <element signature="e#1859#2533#0" />
+                <element signature="e#2573#3030#0" />
+                <element signature="e#3391#3662#0" />
+                <element signature="e#3776#3835#0" />
+                <element signature="e#4175#4284#0" />
+                <element signature="e#4347#4493#0" />
+                <element signature="e#4560#4680#0" />
+                <element signature="e#4747#5826#0" />
               </folding>
             </state>
           </provider>
@@ -28,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Vispy.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+            <state relative-caret-position="166">
+              <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -40,11 +54,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Avance(main).py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="170">
+              <caret line="10" selection-start-line="10" selection-end-line="12" />
             </state>
           </provider>
         </entry>
@@ -64,8 +75,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Ambiente.py" />
         <option value="$PROJECT_DIR$/Avance(main).py" />
+        <option value="$PROJECT_DIR$/Ambiente.py" />
         <option value="$PROJECT_DIR$/Vispy.py" />
       </list>
     </option>
@@ -110,7 +121,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Vispy">
+  <component name="RunManager" selected="Python.Avance(main)">
     <configuration name="Ambiente" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ProyectoAlgoritmos" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -124,6 +135,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Ambiente.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Avance(main)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ProyectoAlgoritmos" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Avance(main).py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -155,6 +187,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Avance(main)" />
         <item itemvalue="Python.Vispy" />
         <item itemvalue="Python.Ambiente" />
       </list>
@@ -175,13 +208,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27168575" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.40261865" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -198,28 +232,37 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Avance(main).py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" lean-forward="true" selection-start-line="8" selection-end-line="8" />
-          <folding>
-            <element signature="e#0#22#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="12" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Ambiente.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3621">
-          <caret line="217" selection-start-line="217" selection-end-line="217" />
+        <state relative-caret-position="221">
+          <caret line="116" column="27" lean-forward="true" selection-start-line="116" selection-start-column="27" selection-end-line="116" selection-end-column="27" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#715#1040#0" />
+            <element signature="e#1103#1405#0" />
+            <element signature="e#1443#1498#0" />
+            <element signature="e#1543#1816#0" />
+            <element signature="e#1859#2533#0" />
+            <element signature="e#2573#3030#0" />
+            <element signature="e#3391#3662#0" />
+            <element signature="e#3776#3835#0" />
+            <element signature="e#4175#4284#0" />
+            <element signature="e#4347#4493#0" />
+            <element signature="e#4560#4680#0" />
+            <element signature="e#4747#5826#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Vispy.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+        <state relative-caret-position="166">
+          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
           <folding>
             <element signature="e#0#10#0" expanded="true" />
           </folding>

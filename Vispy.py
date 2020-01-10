@@ -9,20 +9,15 @@ import Ambiente as ab
 
 # create data cloud
 
-campo = ab.obtenerCampo()
-#ab.insertarObstaculosCubos(campo)
+campo=ab.obtenerCampo(100) #matriz de 100x100x100
+ab.insertarObstaculosCubos(campo,100,7) #se insertan 100 cubos con arista 7
 
-
-pos = np.zeros((100, 3), dtype=int)
-print(pos)
 x, y, z = np.where((campo==1))
-
 
 lista = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
 
 pos = np.array(lista)
 
-print(pos)
 
 #
 # Make a canvas and add simple view
