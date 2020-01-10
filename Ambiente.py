@@ -2,13 +2,12 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 import numpy as np
 import random as rd
-import numba
-from timeit import default_timer as timer
-from numba import jit, cuda
+#import numba
+#from timeit import default_timer as timer
+#from numba import jit, cuda
 
-resolucion=100
 
-def obtenerCampo():
+def obtenerCampo(resolucion=100):
     return np.zeros((resolucion,resolucion,resolucion),dtype=int)
 
 def mostrarCampo(campo3D,colorObstaculos):
@@ -115,42 +114,45 @@ def buscarVecinos(array3D,punto):
             vecinos.append(tuple(puntoMenos))
     return vecinos
 
-def insertarObstaculosCubos(array3d,cantidad="MEDIO"):
+def insertarObstaculosCubos(array3d,cantidad=100,arista=7):
     x,y,z=array3d.shape
-    factor=12
-    if cantidad == "SATURADO":
-        factor=25
-    elif cantidad == "SOBRESATURADO":
-        factor=50
 
-    for i in range(factor):
+    while(cantidad>0):
         a = rd.randint(0, x - 1)
         b = rd.randint(0, y - 1)
         c = rd.randint(0, z - 1)
-        crearCubo(array3d,a,b,c)
+        if dentroDeRango(array3d,a,b,c,arista) and sinIntercepciones(array3d, a, b, c, arista):
+            crearCubo(array3d,a,b,c,arista)
+            cantidad-=1
 
-def crearCubo(array3d,x,y,z):
-    factor = rd.randint(5, 15)
-    crecerCubo(array3d,x,y,z,factor)
+def sinIntercepciones(array3d,x,y,z,arista):
 
-def crecerCubo(array3d,x,y,z,valorCrecer):
+    return array3d[x,y,z]!=1 and  array3d[x+arista,y+arista,z+arista]!=1 \
+           and array3d[x + arista, y + arista, z ] != 1 and array3d[x+arista,y,z+arista]!=1 \
+           and array3d[x,y+arista,z+arista]!=1 and array3d[x,y,z+arista]!=1 \
+           and array3d[x,y+arista,z]!=1 and array3d[x+arista,y,z]!=1
 
-    X,Y,Z=array3d.shape
-    if x+valorCrecer<X and y+valorCrecer<Y and z+valorCrecer<Z :
-        for i in range(x,x+valorCrecer):
-            for j in range(y,y+valorCrecer):
-                array3d[i][j][z] = 1
-                array3d[i][j][z+valorCrecer] = 1
+def dentroDeRango(array3d,x,y,z,arista):
+    X, Y, Z = array3d.shape
+    return 0<x + arista < X and 0<y + arista < Y and 0<z + arista < Z
 
-        for i in range(x,x+valorCrecer):
-            for k in range(z,z+valorCrecer):
-                array3d[i][y][k] = 1
-                array3d[i][y+valorCrecer][k] = 1
+def crearCubo(array3d,x,y,z,arista):
 
-        for j in range(y,y+valorCrecer):
-            for k in range(z,z+valorCrecer):
-                array3d[x][j][k] = 1
-                array3d[x+valorCrecer][j][k] = 1
+    for i in range(x, x + arista):
+        for j in range(y, y + arista):
+            array3d[i][j][z] = 1
+            array3d[i][j][z + arista] = 1
+
+    for i in range(x, x + arista):
+        for k in range(z, z + arista):
+            array3d[i][y][k] = 1
+            array3d[i][y + arista][k] = 1
+
+    for j in range(y, y + arista):
+        for k in range(z, z + arista):
+            array3d[x][j][k] = 1
+            array3d[x + arista][j][k] = 1
+
 
 def productoPunto(pI, pD):
 
@@ -213,22 +215,6 @@ def calcularRuta(campo3D, puntoInicio:list, puntoFin:list):
         veces+=1
     ruta.append(puntoFin)
     return ruta
-
-
-#campo=obtenerCampo()
-#insertarObstaculos(campo,"SATURADO")
-#mostrarCampo(campo,"r")
-#campo=obtenerCampo()
-#insertarObstaculosCumulos(campo,"SATURADO")
-#mostrarCampo(campo,"g")
-#campo=obtenerCampo()
-#insertarObstaculosCubos(campo,"SATURADO")
-#mostrarCampo(campo,"b")
-#start = timer()
-#ruta = calcularRuta(campo, [1,1,1], [85,19,65])
-#print("with CPU:", timer() - start)
-#print(buscarVecinos2(campo, [5,5,5]))
-#print(ruta)
 
 
 

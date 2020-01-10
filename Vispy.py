@@ -1,15 +1,16 @@
 import sys
 import numpy as np
-from vispy import scene
-from vispy.scene import visuals
 import vispy
 from vispy import color
+from vispy import scene
+from vispy.scene import visuals
 from vispy.color import ColorArray
 import Ambiente as ab
 
 # create data cloud
+
 campo = ab.obtenerCampo()
-ab.insertarObstaculosCubos(campo,"SOBRESATURADO")
+#ab.insertarObstaculosCubos(campo)
 
 
 pos = np.zeros((100, 3), dtype=int)
