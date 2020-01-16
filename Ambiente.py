@@ -135,6 +135,8 @@ def obtenerDiccionarioCubos(puntosCubos,arista=7):#{(xo1,yo1,zo1):[xs,ys,zs]}
     return dicCubos
 
 
+
+
 #######metodo de generacion de puntos origen#####
 
 def obtenerPuntosOrigenCubo(array3d, N, arista):

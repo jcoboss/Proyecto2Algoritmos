@@ -9,35 +9,39 @@ from Ambiente import *
 from time import time
 
 
+def traduccirDiccionarioVERDADERO(diccionario: dict):
+
+    lista = []
+    colorCubos = []
+
+    for clave, valor in diccionario.items():
+
+        x, y, z = valor
+        color = np.random.uniform(0.60, 1.00, 3)
+        puntosCubitos = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
+        for ind in range(len(x)):
+            colorCubos.append(color)
+        lista.extend(puntosCubitos)
+
+    return [np.array(lista), np.array(colorCubos)]
+
 campo=obtenerCampo(100) #matriz de 100x100x100
-puntosCubos=obtenerPuntosOrigenCubo(campo,N=100,arista=7)
+puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)
 diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=7)
-print(diccionarioCubos)
+
 insertarObstaculosCubosMatrix(campo,diccionarioCubos)
 
 print(len(diccionarioCubos.keys()))
 
-x, y, z = np.where((campo==1))
-puntosCubitos = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
-puntosRuta=calcularRuta(campo,[0,0,0],[98,98,98])
+#x, y, z = np.where((campo==1))
+puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO(diccionarioCubos)
+puntosRuta=calcularRuta(campo,[20,15,0],[98,98,98])
 
 
-colorRuta = np.array([[0.4, 1.0, 1.0]] * len(puntosRuta))
+colorRuta = np.array([[0, 0, 0]] * len(puntosRuta))
 
-colorCubos = np.array([[0.85, 1.0, 0.9]] * len(puntosCubitos))
+#colorCubos = np.zeros([[0.85, 1.0, 0.9]] * len(puntosCubitos))
 
-puntosI = 0
-for clave in diccionarioCubos.keys():
-
-    color  = np.random.uniform(0.80, 1.00, 3)
-    total = 7*7*7
-    print(total)
-    for puntos in range(total):
-        if puntosI < len(puntosCubitos):
-            colorCubos[puntosI] = color
-        puntosI+=1
-
-print(np.where((colorCubos == 0)))
 # stack point clouds and colors
 pos = np.vstack((np.array(puntosCubitos), np.array(puntosRuta)))
 colors = np.vstack((colorCubos, colorRuta))
