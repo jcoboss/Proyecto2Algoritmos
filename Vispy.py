@@ -11,10 +11,11 @@ from time import time
 
 campo=obtenerCampo(100) #matriz de 100x100x100
 puntosCubos=obtenerPuntosOrigenCubo(campo,N=100,arista=7)
-diccionarioCubos=obtenerDiccionarioCubos(puntosCubos,arista=7)
-
+diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=7)
+print(diccionarioCubos)
 insertarObstaculosCubosMatrix(campo,diccionarioCubos)
 
+print(len(diccionarioCubos.keys()))
 
 x, y, z = np.where((campo==1))
 puntosCubitos = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
@@ -22,7 +23,21 @@ puntosRuta=calcularRuta(campo,[0,0,0],[98,98,98])
 
 
 colorRuta = np.array([[0.4, 1.0, 1.0]] * len(puntosRuta))
-colorCubos = np.ones((len(puntosCubitos), 3))
+
+colorCubos = np.array([[0.85, 1.0, 0.9]] * len(puntosCubitos))
+
+puntosI = 0
+for clave in diccionarioCubos.keys():
+
+    color  = np.random.uniform(0.80, 1.00, 3)
+    total = 7*7*7
+    print(total)
+    for puntos in range(total):
+        if puntosI < len(puntosCubitos):
+            colorCubos[puntosI] = color
+        puntosI+=1
+
+print(np.where((colorCubos == 0)))
 # stack point clouds and colors
 pos = np.vstack((np.array(puntosCubitos), np.array(puntosRuta)))
 colors = np.vstack((colorCubos, colorRuta))
@@ -32,7 +47,7 @@ colors = np.vstack((colorCubos, colorRuta))
 # Make a canvas and add simple view
 #
 
-canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='black')
+canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='white')
 """
 arrow keys, or WASD to move forward, backward, left and right
 F and C keys move up and down
@@ -47,7 +62,7 @@ flyCam.center = (99,99,99)
 cam1 = scene.cameras.MagnifyCamera()
 cam2= scene.cameras.ArcballCamera(fov=90.0, distance=250)
 
-view.camera = cam2
+view.camera = flyCam
 scatter = visuals.Markers(parent=view.scene)
 
 scatter.antialias = 1
