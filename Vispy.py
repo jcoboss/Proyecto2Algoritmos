@@ -5,32 +5,34 @@ from vispy import color
 from vispy import scene
 from vispy.scene import visuals
 from vispy.color import ColorArray
-import Ambiente as ab
+from Ambiente import *
+from time import time
 
-# create data cloud
 
-campo=ab.obtenerCampo(100) #matriz de 100x100x100
-ab.insertarObstaculosCumulos(campo, "SOBRESATURADO") #se insertan 100 cubos con arista 7
+campo=obtenerCampo(100) #matriz de 100x100x100
+puntosCubos=obtenerPuntosOrigenCubo(campo,N=100,arista=7)
+diccionarioCubos=obtenerDiccionarioCubos(puntosCubos,arista=7)
+
+insertarObstaculosCubosMatrix(campo,diccionarioCubos)
 
 
 x, y, z = np.where((campo==1))
+puntosCubitos = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
+puntosRuta=calcularRuta(campo,[0,0,0],[98,98,98])
 
-lista = [[x[ind], y[ind], z[ind]] for ind in range((len(x)))]
 
-pos = np.array(lista)
-#print(pos)
-puntosRuta=np.array((ab.calcularRuta(campo,[0,0,0],[98,98,98])))
-#print(puntosRuta)
-pos2=list()
+colorRuta = np.array([[0.4, 1.0, 1.0]] * len(puntosRuta))
+colorCubos = np.ones((len(puntosCubitos), 3))
+# stack point clouds and colors
+pos = np.vstack((np.array(puntosCubitos), np.array(puntosRuta)))
+colors = np.vstack((colorCubos, colorRuta))
 
-pos2.extend(list(pos))
-pos2.extend(puntosRuta.tolist())
-print(pos2)
+
 #
 # Make a canvas and add simple view
 #
 
-canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='w')
+canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='black')
 """
 arrow keys, or WASD to move forward, backward, left and right
 F and C keys move up and down
@@ -49,11 +51,12 @@ view.camera = cam2
 scatter = visuals.Markers(parent=view.scene)
 
 scatter.antialias = 1
-scatter.set_data(pos=np.array(pos2), edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.6, 0.5, 0.4, 1.0), size=10)
 
-#guardar Puntos ruta
+#scatter.set_data(pos=pos, edge_color=(0.7,0.3,0.4,0.8), face_color=(0.7,0.3,0.4,0.8), size=8)
+
+scatter.set_data(pos=pos, face_color=colors, size=8)
+
 #scatter.set_data(pos=puntosRuta, edge_color=(0.0, 0.0, 0.0, 1.0), face_color=(0.9, 0.9, 0.9, 1.0), size=15)
-##fin guardar puntos ruta
 scatter.set_gl_state(depth_test=True, blend=True, blend_func=('src_alpha', 'one_minus_src_alpha'))
 
 # Add axes
@@ -66,4 +69,3 @@ r = ColorArray('red')
 
 if __name__ == '__main__' and sys.flags.interactive == 0:
     canvas.app.run()
-

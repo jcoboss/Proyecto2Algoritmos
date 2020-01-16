@@ -12,9 +12,6 @@ import random as rd
 def obtenerCampo(resolucion=100):
     return np.zeros((resolucion,resolucion,resolucion),dtype=int)
 
-def agregarPuntosAPlot(puntos,subplot):#puntos debe ser [[xq,x2,x3...],[y1,y2,y3,...],[z1,z2,z3....]]
-    xs,ys,zs=puntos
-    subplot.scatter(xs, ys, zs, marker='o')
 
 
 def insertarObstaculos(array3d,cantidad="MEDIO"):
@@ -104,31 +101,8 @@ def buscarVecinos(array3D,punto):
             vecinos.append(tuple(puntoMenos))
     return vecinos
 
-def insertarObstaculosCubos(array3d,subPlot=0,cantidad=100,arista=7):
-    x,y,z=array3d.shape
 
-    while(cantidad>0):
-        a = rd.randint(0, x - 1)
-        b = rd.randint(0, y - 1)
-        c = rd.randint(0, z - 1)
 
-        if dentroDeRango(array3d,a,b,c,arista) and sinIntercepciones(array3d, a, b, c, arista):
-            puntosCubo=obtenerPuntosCubo(a,b,c,arista)
-            agregarCuboAMatriz(array3d,puntosCubo)
-            if subPlot!=0 :
-                agregarPuntosAPlot(puntosCubo,subPlot)
-            cantidad-=1
-
-def sinIntercepciones(array3d,x,y,z,arista):
-
-    return array3d[x,y,z]!=1 and  array3d[x+arista,y+arista,z+arista]!=1 \
-           and array3d[x + arista, y + arista, z ] != 1 and array3d[x+arista,y,z+arista]!=1 \
-           and array3d[x,y+arista,z+arista]!=1 and array3d[x,y,z+arista]!=1 \
-           and array3d[x,y+arista,z]!=1 and array3d[x+arista,y,z]!=1
-
-def dentroDeRango(array3d,x,y,z,arista):
-    X, Y, Z = array3d.shape
-    return 0<x + arista < X and 0<y + arista < Y and 0<z + arista < Z
 
 def agregarCuboAMatriz(array3d,puntosCubo):
     xs,ys,zs=puntosCubo
@@ -136,7 +110,65 @@ def agregarCuboAMatriz(array3d,puntosCubo):
     for i in range(longitudPuntos):
         array3d[xs[i],ys[i],zs[i]]=1
 
-def obtenerPuntosCubo(x,y,z,arista):
+def agregarPuntosAPlot(puntosCubo,subplot):#puntos debe ser [[xq,x2,x3...],[y1,y2,y3,...],[z1,z2,z3....]]
+    xs,ys,zs=puntosCubo
+    subplot.scatter(xs, ys, zs, marker='o')
+
+
+
+
+def insertarObstaculosCubosMatrix(array3d,diccionarioCubos):
+    for tuplaPunto,puntosCubo in diccionarioCubos.items():
+        agregarCuboAMatriz(array3d,puntosCubo)
+
+def insertarObstaculosCubosPlot(diccionarioCubos,subplot):
+    for tuplaPunto,puntosCubo in diccionarioCubos.items():
+        agregarPuntosAPlot(puntosCubo,subplot)
+
+
+def obtenerDiccionarioCubos(puntosCubos,arista=7):#{(xo1,yo1,zo1):[xs,ys,zs]}
+    dicCubos={}#{(xo1,yo1,zo1):[[x1,y2,z3]...],(xo2,yo2,zo2):[[x]]}
+    for tuplaPunto in puntosCubos:
+        a,b,c=tuplaPunto
+        puntosCubo=obtenerPuntosSuperficieCubo(a,b,c,arista)
+        dicCubos[tuplaPunto]=puntosCubo
+    return dicCubos
+
+
+#######metodo de generacion de puntos origen#####
+
+def obtenerPuntosOrigenCubo(array3d, N, arista):
+    X, Y, Z = array3d.shape
+
+    puntosOrigen = []
+    array3dCopy=np.copy(array3d)
+    while (N > 0):
+
+        x=rd.randint(0, X-arista-1)
+        y=rd.randint(0, Y-arista-1)
+        z=rd.randint(0, Z-arista-1)
+
+        """validos = np.where((array3dCopy != 1))
+        i = rd.randint(0, len(validos[0]))
+
+        x = validos[0][i]
+        y = validos[1][i]
+        z = validos[2][i]"""
+
+        if dentroDeRango(array3dCopy,x,y,z,arista) and sinIntercepciones(array3dCopy,x,y,z,arista):
+            puntosOrigen.append((x,y,z))
+            puntosCubo = obtenerPuntosSolidoCubo(x, y, z, arista)
+            agregarCuboAMatriz(array3dCopy, puntosCubo)
+            N-=1
+
+    return puntosOrigen#[(a,b,c),(a,b,c)....]
+
+
+####fin metodo de generacion de puntos origen###
+
+#############metodos de generacion de puntos#####
+
+def obtenerPuntosSuperficieCubo(x,y,z,arista):
     xs=[]
     ys=[]
     zs=[]
@@ -167,7 +199,37 @@ def obtenerPuntosCubo(x,y,z,arista):
             xs.append(x+arista)
             ys.append(j)
             zs.append(k)
-    return np.array([xs,ys,zs])
+    return [xs,ys,zs]
+
+def obtenerPuntosSolidoCubo(x,y,z,arista):
+    xs=[]
+    ys=[]
+    zs=[]
+    for i in range(x, x + arista):
+        for j in range(y, y + arista):
+            for k in range(z, z + arista):
+                xs.append(i)
+                ys.append(j)
+                zs.append(k)
+    return [xs,ys,zs]
+
+#############fin metodos de creacion#########
+
+
+#############metodos de validacion##########
+def sinIntercepciones(array3d,x,y,z,arista):
+
+    return array3d[x,y,z]!=1 and  array3d[x+arista,y+arista,z+arista]!=1 \
+           and array3d[x + arista, y + arista, z ] != 1 and array3d[x+arista,y,z+arista]!=1 \
+           and array3d[x,y+arista,z+arista]!=1 and array3d[x,y,z+arista]!=1 \
+           and array3d[x,y+arista,z]!=1 and array3d[x+arista,y,z]!=1
+
+def dentroDeRango(array3d,x,y,z,arista):
+    X, Y, Z = array3d.shape
+    return 0<x + arista < X and 0<y + arista < Y and 0<z + arista < Z
+
+#############fin metodos de validacion#######
+
 
 
 def productoPunto(pI, pD):
@@ -229,7 +291,7 @@ def calcularRuta(campo3D, puntoInicio:list, puntoFin:list):
         puntoAnt = puntoActual
         puntoActual = puntoMasCercano
         veces+=1
-    ruta.append(puntoFin)
+    ruta.append(tuple(puntoFin))
     return ruta
 
 
