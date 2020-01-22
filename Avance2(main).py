@@ -1,13 +1,11 @@
+from M3DtoGraph import *
+from AStar import obtenerRutaAStar
 import sys
-import numpy as np
-import vispy
-from vispy import color
 from vispy import scene
 from vispy.scene import visuals
 from vispy.color import ColorArray
-from Ambiente import *
 from time import time
-
+from Ambiente import *
 
 def traduccirDiccionarioVERDADERO(diccionario: dict):
 
@@ -24,36 +22,32 @@ def traduccirDiccionarioVERDADERO(diccionario: dict):
         lista.extend(puntosCubitos)
 
     return [np.array(lista), np.array(colorCubos)]
-
+print("Creando el campo de arista 100...")
 campo=obtenerCampo(100) #matriz de 100x100x100
+print("Creando obstáculos...")
 puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)
 diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=7)
-
+print("Insertando obstáculos al campo...")
 insertarObstaculosCubosMatrix(campo,diccionarioCubos)
-
-print(len(diccionarioCubos.keys()))
-
-#x, y, z = np.where((campo==1))
 puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO(diccionarioCubos)
 
+print("Crando grafo asociado a la matriz...")
 t1=time()
-puntosRuta=calcularRuta(campo,[0,0,0],[98,98,98])
+grafoAsociado=crearGrafo(campo)
 t2=time()
-print("Tiempo de ejecución de algoritmo de busqueda alterno: {}".format(t2-t1))
+print("Tiempo de creación del grafo asociado: {}".format(t2-t1))
 
+print("Obteniendo ruta usando algoritmo A*...")
+t1=time()
+puntosRuta=obtenerRutaAStar(grafoAsociado,(0,0,0),(99,99,99),3)#el 3 hace referencia a la dimension del arreglo asociado
+t2=time()
+print("Tiempo de ejecución de A*: {}".format(t2-t1))
 
 colorRuta = np.array([[0, 0, 0]] * len(puntosRuta))
 
-#colorCubos = np.zeros([[0.85, 1.0, 0.9]] * len(puntosCubitos))
-
-# stack point clouds and colors
 pos = np.vstack((np.array(puntosCubitos), np.array(puntosRuta)))
 colors = np.vstack((colorCubos, colorRuta))
 
-
-#
-# Make a canvas and add simple view
-#
 
 canvas = scene.SceneCanvas(keys='interactive', show=True, bgcolor='white')
 """
@@ -92,3 +86,4 @@ r = ColorArray('red')
 
 if __name__ == '__main__' and sys.flags.interactive == 0:
     canvas.app.run()
+
