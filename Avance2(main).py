@@ -25,8 +25,8 @@ def traduccirDiccionarioVERDADERO(diccionario: dict):
 print("Creando el campo de arista 100...")
 campo=obtenerCampo(100) #matriz de 100x100x100
 print("Creando obstáculos...")
-puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)
-diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=7)
+puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)#N numero de obstaculos y arista es la arista de cada cubo obstaculo
+diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=14)
 print("Insertando obstáculos al campo...")
 insertarObstaculosCubosMatrix(campo,diccionarioCubos)
 puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO(diccionarioCubos)

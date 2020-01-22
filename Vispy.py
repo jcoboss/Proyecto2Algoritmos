@@ -27,7 +27,7 @@ def traduccirDiccionarioVERDADERO(diccionario: dict):
 
 campo=obtenerCampo(100) #matriz de 100x100x100
 puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)
-diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=7)
+diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=14)
 
 insertarObstaculosCubosMatrix(campo,diccionarioCubos)
 

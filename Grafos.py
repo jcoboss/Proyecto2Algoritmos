@@ -5,19 +5,7 @@ from time import time
 from queue import PriorityQueue
 
 import random as rd
-"""def crearGrafo(matriz):
-    X,Y=matriz.shape
-    grafo={}
-    for i in range(X):
-        for j in range(Y):
-            vecinos=buscarVecinos2D(matriz,(i,j))
-            sub=grafo.get((i,j),{})
-            for vecino in vecinos:
-                d12=distancia2Puntos2D((i,j),vecino)
-                sub[vecino]=d12
-            grafo[(i,j)]=sub
-    return grafo
-"""
+
 def crearGrafo(matriz):
     X,Y=matriz.shape
     grafo={}
