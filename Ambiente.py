@@ -296,5 +296,41 @@ def calcularRuta(campo3D, puntoInicio:list, puntoFin:list):
     ruta.append(tuple(puntoFin))
     return ruta
 
+def calcularRutaAlt(campo3D, puntoInicio:list, puntoFin:list):
+
+    puntoAnt:list = puntoInicio
+    puntoActual:list = puntoInicio
+
+    ruta:list = []
+    veces = 0
+    while puntoActual != puntoFin:
+
+        ruta.append(puntoActual)
+        puntosVecinos: list = buscarVecinos2(campo3D, puntoActual)
+
+        listaPuntos = list()
+
+        for puntoPrueba in puntosVecinos:
+
+            vectores: list = vectorizar(puntoAnt, puntoActual, puntoPrueba)
+            pUno: list = vectores[0]
+            pDos: list = vectores[1]
+            avance: bool = productoPunto(pUno, pDos) >= 0
+            disponble: bool = campo3D[puntoPrueba[0], puntoPrueba[1], puntoPrueba[2]] == 0
+            if disponble:
+
+                    distancia = calcularDistancia(puntoPrueba, puntoFin)
+                    tupla: tuple = (distancia, puntoPrueba)
+                    if tupla not in listaPuntos: listaPuntos.append(tupla)
+
+        listaPuntos.sort(reverse=True)
+        puntoMasCercano: list = list(listaPuntos.pop()[1])
+
+        campo3D[puntoActual[0], puntoActual[1], puntoActual[2]] = 1
+        puntoAnt = puntoActual
+        puntoActual = puntoMasCercano
+        veces+=1
+    ruta.append(tuple(puntoFin))
+    return ruta
 
 

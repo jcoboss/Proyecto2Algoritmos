@@ -36,8 +36,9 @@ print(len(diccionarioCubos.keys()))
 #x, y, z = np.where((campo==1))
 puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO(diccionarioCubos)
 
+campoClon = campo.copy()
 t1=time()
-puntosRuta=calcularRuta(campo,[0,0,0],[98,98,98])
+puntosRuta=calcularRuta(campoClon,[0,0,0],[98,98,98])
 t2=time()
 print("Tiempo de ejecución de algoritmo de busqueda alterno: {}".format(t2-t1))
 
