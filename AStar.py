@@ -1,7 +1,5 @@
-from Grafos import *
 from queue import *
 from M3DtoGraph import *
-import Grafos
 
 def obtenerDiccionarioDijktra(grafo,nodoInicial,nodoDestino,dimension=2):
     #clear node
@@ -26,10 +24,7 @@ def obtenerDiccionarioDijktra(grafo,nodoInicial,nodoDestino,dimension=2):
         dijktra[punto]["visto"]=True
         for adyacente in grafo[punto]:
             if not dijktra[adyacente]["visto"]:
-                if dimension==3:
-                    nDistancia=distancia2Puntos3D(adyacente,nodoDestino)
-                else:
-                    nDistancia=distancia2Puntos2D(adyacente,nodoDestino)
+                nDistancia=distancia2Puntos3D(adyacente,nodoDestino,dimension)
                 if dijktra[adyacente]["distancia"]> nDistancia:
                     dijktra[adyacente]["distancia"]=nDistancia
                     dijktra[adyacente]["ancestro"]=punto
@@ -49,33 +44,3 @@ def enrutarDijktra(grafoDijktra, nodoDestino):
 def obtenerRutaAStar(grafo,nodoInicial,nodoDestino,dimesion):
     grafoD=obtenerDiccionarioDijktra(grafo,nodoInicial,nodoDestino,dimesion)
     return enrutarDijktra(grafoD,nodoDestino)
-
-"""
-filas=200
-columnas=200
-matriz=np.zeros((filas,columnas),int)
-
-
-agregarObstaculoAMatrix(matriz)
-matriz[0,0]=0
-matriz[filas-1,columnas-1]=0
-
-
-grafo=crearGrafo(matriz)
-print(grafo)
-
-nodo0=(0,0)
-nodo1=(filas-1,columnas-1)
-t1=time()
-dijktra=obtenerDiccionarioDijktra(grafo,nodo0,nodo1)
-#print(dijktra)
-ruta=enrutarDijktra(dijktra,nodo1)
-t2=time()
-print("Tiempo de ejecucion {}".format(t2-t1))
-#print(ruta)
-
-agregarPuntosRutaAMatrix(matriz,ruta)
-print(matriz)
-"""
-#optimizar el algoritmo de creacion de grafo
-#al guardar vecinos, se debe hacer de manera bidireccional

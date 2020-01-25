@@ -1,8 +1,13 @@
 import math as mt
 import numpy as np
 import random as rd
-def distancia2Puntos3D(punto1,punto2):
-    return (mt.pow(punto2[1]-punto1[1],2)+mt.pow(punto2[0]-punto1[0],2)+mt.pow(punto2[2]-punto1[2],2))
+def distancia2Puntos3D(punto1,punto2,dimension=1):
+    suma=mt.pow(punto2[1]-punto1[1],2)
+    if dimension==2 or dimension==3:
+        suma+=mt.pow(punto2[0]-punto1[0],2)
+    elif dimension==3 :
+        suma+=mt.pow(punto2[2]-punto1[2],2)
+    return suma
 
 
 def obtenerVecinosPunto3D(matriz,punto):
