@@ -22,14 +22,30 @@ def traduccirDiccionarioVERDADERO(diccionario: dict):
         lista.extend(puntosCubitos)
 
     return [np.array(lista), np.array(colorCubos)]
+
+
+def traduccirDiccionarioVERDADERO2(diccionario: dict):
+
+    lista = []
+    colorCubos = []
+
+    for clave, valor in diccionario.items():
+        color = np.random.uniform(0.60, 1.00, 3)
+        for ind in range(len(valor)):
+            colorCubos.append(color)
+        lista.extend(valor)
+
+    return [np.array(lista), np.array(colorCubos)]
 print("Creando el campo de arista 100...")
 campo=obtenerCampo(100) #matriz de 100x100x100
 print("Creando obstáculos...")
-puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)#N numero de obstaculos y arista es la arista de cada cubo obstaculo
-diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=14)
+#puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)#N numero de obstaculos y arista es la arista de cada cubo obstaculo
+#diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=14)
+diccionarioCumulos=obtenerDiccionarioCumulos(campo,100,8)
 print("Insertando obstáculos al campo...")
-insertarObstaculosCubosMatrix(campo,diccionarioCubos)
-puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO(diccionarioCubos)
+#insertarObstaculosCubosMatrix(campo,diccionarioCubos)
+insertarObstaculosCumulos(array3d=campo,dicCumulos=diccionarioCumulos)
+puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO2(diccionarioCumulos)
 
 print("Crando grafo asociado a la matriz...")
 t1=time()

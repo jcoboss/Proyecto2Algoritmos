@@ -3,90 +3,36 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random as rd
 
-#import numba
-
-#from timeit import default_timer as timer
-#from numba import jit, cuda
 
 
 def obtenerCampo(resolucion=100):
     return np.zeros((resolucion,resolucion,resolucion),dtype=int)
 
 
+def insertarObstaculosCumulos(array3d,dicCumulos):
+    for puntoOrigen in dicCumulos:
+        for punto in dicCumulos[puntoOrigen]:
+            x,y,z=punto
+            array3d[x,y,z]=1
 
-def insertarObstaculos(array3d,cantidad="MEDIO"):
-    x,y,z=array3d.shape
-    factor=10000
-    if cantidad == "SATURADO":
-        factor=1000
-    elif cantidad == "SOBRESATURADO":
-        factor=500
 
-    nElementos=array3d.size//factor
-
-    for i in range(nElementos):
-        a=rd.randint(0,x-1)
-        b=rd.randint(0,y-1)
-        c=rd.randint(0,z-1)
-        array3d[a][b][c]=1
-
-def insertarObstaculosCumulos(array3d,cantidad="MEDIO"):
-    x,y,z=array3d.shape
-    factor=25
-    if cantidad == "SATURADO":
-        factor=50
-    elif cantidad == "SOBRESATURADO":
-        factor=750
-
-    for i in range(factor):
-        a = rd.randint(0, x - 1)
-        b = rd.randint(0, y - 1)
-        c = rd.randint(0, z - 1)
-        crearCumulo(array3d,a,b,c)
-
-def crearCumulo(array3d,x,y,z):
-    factor=rd.randint(3,9)
-    crecer(array3d,x,y,z,factor)
-
-def crecer(array3d,x,y,z,valorCrecer):
-    array3d[x][y][z]=1
-    if valorCrecer>0:
-        listaVecinos=buscarVecinos(array3d,[x,y,z])
+def obtenerPuntosCumulo(array3d,puntoOrigen,valorCrecer):
+    puntos=[]
+    while valorCrecer>0:
+        puntos.append(puntoOrigen)
+        listaVecinos = buscarVecinos(array3d, puntoOrigen)
         rd.shuffle(listaVecinos)
-        for vecino in listaVecinos:
-            valorCrecer = valorCrecer - 1
-            crecer(array3d,vecino[0],vecino[1],vecino[2],valorCrecer)
+        puntoN=listaVecinos.pop()
+        valorCrecer -= 1
+        puntos.extend(obtenerPuntosCumulo(array3d,puntoN,valorCrecer))
 
-def buscarVecinos2(campo3D, punto):
+    return puntos
 
-    limitX, limitY, limitZ = campo3D.shape
-    lista = []
-
-    posZ = punto[2] -1
-    for z in range(3):
-
-        posX = punto[0] - 1
-        for x in range(3):
-
-            posY = punto[1] - 1
-            for y in range(3):
-
-                excesoX = 0 <= x < limitX
-                excesoY = 0 <= y < limitY
-                excesoZ = 0 <= z < limitZ
-                noIgual = posX != punto[0] or posY != punto[1] or posZ != punto[2]
-                if excesoX and excesoY and excesoZ and noIgual:
-                    puntoNuevo = [posX, posY, posZ]
-                    lista.append(puntoNuevo)
-                posY += 1
-            posX += 1
-        posZ += 1
-    return lista
 
 def buscarVecinos(array3D,punto):
     vecinos=[]
     X,Y,Z=array3D.shape
-
+    punto=list(punto)
     for i in range(len(punto)):
         puntoMas=punto.copy()
         puntoMenos =punto.copy()
@@ -102,6 +48,15 @@ def buscarVecinos(array3D,punto):
     return vecinos
 
 
+def obtenerDiccionarioCumulos(array3d,N,diametroPromedio):
+    X,Y,Z=array3d.shape
+    dicCumulos={}
+    for i in range(N):
+        puntoOrigen=(rd.randint(0,X-1),rd.randint(0,Y-1),rd.randint(0,Z-1))
+        puntosCumulo=obtenerPuntosCumulo(array3d,puntoOrigen,diametroPromedio)
+        dicCumulos[puntoOrigen]=puntosCumulo
+    return dicCumulos
+
 
 
 def agregarCuboAMatriz(array3d,puntosCubo):
@@ -110,21 +65,9 @@ def agregarCuboAMatriz(array3d,puntosCubo):
     for i in range(longitudPuntos):
         array3d[xs[i],ys[i],zs[i]]=1
 
-def agregarPuntosAPlot(puntosCubo,subplot):#puntos debe ser [[xq,x2,x3...],[y1,y2,y3,...],[z1,z2,z3....]]
-    xs,ys,zs=puntosCubo
-    subplot.scatter(xs, ys, zs, marker='o')
-
-
-
-
 def insertarObstaculosCubosMatrix(array3d,diccionarioCubos):
     for tuplaPunto,puntosCubo in diccionarioCubos.items():
         agregarCuboAMatriz(array3d,puntosCubo)
-
-def insertarObstaculosCubosPlot(diccionarioCubos,subplot):
-    for tuplaPunto,puntosCubo in diccionarioCubos.items():
-        agregarPuntosAPlot(puntosCubo,subplot)
-
 
 def obtenerDiccionarioCubos(puntosCubos,arista=7):#{(xo1,yo1,zo1):[xs,ys,zs]}
     dicCubos={}#{(xo1,yo1,zo1):[[x1,y2,z3]...],(xo2,yo2,zo2):[[x]]}
@@ -133,9 +76,6 @@ def obtenerDiccionarioCubos(puntosCubos,arista=7):#{(xo1,yo1,zo1):[xs,ys,zs]}
         puntosCubo=obtenerPuntosSolidoCubo(a,b,c,arista)
         dicCubos[tuplaPunto]=puntosCubo
     return dicCubos
-
-
-
 
 #######metodo de generacion de puntos origen#####
 
@@ -149,13 +89,6 @@ def obtenerPuntosOrigenCubo(array3d, N, arista):
         x=rd.randint(0, X-arista-1)
         y=rd.randint(0, Y-arista-1)
         z=rd.randint(0, Z-arista-1)
-
-        """validos = np.where((array3dCopy != 1))
-        i = rd.randint(0, len(validos[0]))
-
-        x = validos[0][i]
-        y = validos[1][i]
-        z = validos[2][i]"""
 
         if dentroDeRango(array3dCopy,x,y,z,arista) and sinIntercepciones(array3dCopy,x,y,z,arista):
             puntosOrigen.append((x,y,z))
@@ -333,4 +266,29 @@ def calcularRutaAlt(campo3D, puntoInicio:list, puntoFin:list):
     ruta.append(tuple(puntoFin))
     return ruta
 
+def buscarVecinos2(campo3D, punto):
+
+    limitX, limitY, limitZ = campo3D.shape
+    lista = []
+
+    posZ = punto[2] -1
+    for z in range(3):
+
+        posX = punto[0] - 1
+        for x in range(3):
+
+            posY = punto[1] - 1
+            for y in range(3):
+
+                excesoX = 0 <= x < limitX
+                excesoY = 0 <= y < limitY
+                excesoZ = 0 <= z < limitZ
+                noIgual = posX != punto[0] or posY != punto[1] or posZ != punto[2]
+                if excesoX and excesoY and excesoZ and noIgual:
+                    puntoNuevo = [posX, posY, posZ]
+                    lista.append(puntoNuevo)
+                posY += 1
+            posX += 1
+        posZ += 1
+    return lista
 

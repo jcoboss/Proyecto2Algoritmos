@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ecc77d01-46b9-41ab-869c-d2fda1f98897" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AStar.py" beforeDir="false" afterPath="$PROJECT_DIR$/AStar.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Grafos.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/M3DtoGraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/M3DtoGraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestColor.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/testGPU.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Ambiente.py" beforeDir="false" afterPath="$PROJECT_DIR$/Ambiente.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Avance2(main).py" beforeDir="false" afterPath="$PROJECT_DIR$/Avance2(main).py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,20 +17,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Ambiente.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="132" column="56" selection-start-line="132" selection-start-column="56" selection-end-line="132" selection-end-column="56" />
+            <state relative-caret-position="50">
+              <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#4672#5415#0" />
+                <element signature="e#5860#6171#0" />
+                <element signature="e#6218#6311#0" />
+                <element signature="e#6394#6503#0" />
+                <element signature="e#6566#6712#0" />
+                <element signature="e#6779#6899#0" />
+                <element signature="e#6966#8052#0" />
+                <element signature="e#8122#9265#0" />
+                <element signature="e#7685#8359#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Avance2(main).py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
+            <state relative-caret-position="168">
+              <caret line="43" column="56" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -44,8 +50,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/M3DtoGraph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
-              <caret line="8" column="43" lean-forward="true" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+            <state relative-caret-position="-51">
+              <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
               <folding>
                 <element signature="e#0#17#0" expanded="true" />
               </folding>
@@ -65,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AStar.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+            <state relative-caret-position="279">
+              <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
               </folding>
@@ -99,12 +105,12 @@
         <option value="$PROJECT_DIR$/kk.py" />
         <option value="$PROJECT_DIR$/Graph#D.py" />
         <option value="$PROJECT_DIR$/3DArraytoGraph.py" />
-        <option value="$PROJECT_DIR$/Avance2(main).py" />
         <option value="$PROJECT_DIR$/Vispy.py" />
-        <option value="$PROJECT_DIR$/Ambiente.py" />
         <option value="$PROJECT_DIR$/Grafos.py" />
         <option value="$PROJECT_DIR$/M3DtoGraph.py" />
         <option value="$PROJECT_DIR$/AStar.py" />
+        <option value="$PROJECT_DIR$/Ambiente.py" />
+        <option value="$PROJECT_DIR$/Avance2(main).py" />
       </list>
     </option>
   </component>
@@ -282,12 +288,12 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49752474" visible="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49752474" visible="true" weight="0.25" />
       <window_info id="Structure" order="1" sideWeight="0.50247526" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.3289689" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29787233" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3289689" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.31914893" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39934534" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -341,35 +347,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Avance2(main).py">
+    <entry file="file://$PROJECT_DIR$/TestColor.py" />
+    <entry file="file://$PROJECT_DIR$/testGPU.py" />
+    <entry file="file://$PROJECT_DIR$/Grafos.py" />
+    <entry file="file://$PROJECT_DIR$/AStar.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
+        <state relative-caret-position="279">
+          <caret line="17" column="28" selection-start-line="17" selection-start-column="28" selection-end-line="17" selection-end-column="28" />
           <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Ambiente.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="132" column="56" selection-start-line="132" selection-start-column="56" selection-end-line="132" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TestColor.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testGPU.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="34" lean-forward="true" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
+            <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -384,32 +370,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Grafos.py">
+    <entry file="file://$PROJECT_DIR$/Ambiente.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        <state relative-caret-position="50">
+          <caret line="25" column="24" selection-start-line="25" selection-start-column="24" selection-end-line="25" selection-end-column="24" />
           <folding>
-            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#0#39#0" expanded="true" />
+            <element signature="e#4672#5415#0" />
+            <element signature="e#5860#6171#0" />
+            <element signature="e#6218#6311#0" />
+            <element signature="e#6394#6503#0" />
+            <element signature="e#6566#6712#0" />
+            <element signature="e#6779#6899#0" />
+            <element signature="e#6966#8052#0" />
+            <element signature="e#8122#9265#0" />
+            <element signature="e#7685#8359#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/M3DtoGraph.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="43" lean-forward="true" selection-start-line="8" selection-start-column="43" selection-end-line="8" selection-end-column="43" />
+        <state relative-caret-position="-51">
+          <caret line="17" column="29" lean-forward="true" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
           <folding>
             <element signature="e#0#17#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AStar.py">
+    <entry file="file://$PROJECT_DIR$/Avance2(main).py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+        <state relative-caret-position="168">
+          <caret line="43" column="56" selection-start-line="43" selection-start-column="56" selection-end-line="43" selection-end-column="56" />
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
