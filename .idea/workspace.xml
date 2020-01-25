@@ -191,7 +191,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.Vispy">
+  <component name="RunManager" selected="Python.Avance2(main)">
     <configuration name="AStar" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ProyectoAlgoritmos" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -299,8 +299,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Vispy" />
         <item itemvalue="Python.Avance2(main)" />
+        <item itemvalue="Python.Vispy" />
         <item itemvalue="Python.AStar" />
         <item itemvalue="Python.kk" />
         <item itemvalue="Python.TestGrafos" />

@@ -130,7 +130,7 @@ def obtenerDiccionarioCubos(puntosCubos,arista=7):#{(xo1,yo1,zo1):[xs,ys,zs]}
     dicCubos={}#{(xo1,yo1,zo1):[[x1,y2,z3]...],(xo2,yo2,zo2):[[x]]}
     for tuplaPunto in puntosCubos:
         a,b,c=tuplaPunto
-        puntosCubo=obtenerPuntosSuperficieCubo(a,b,c,arista)
+        puntosCubo=obtenerPuntosSolidoCubo(a,b,c,arista)
         dicCubos[tuplaPunto]=puntosCubo
     return dicCubos
 
