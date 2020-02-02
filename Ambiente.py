@@ -282,9 +282,9 @@ def buscarVecinos2(campo3D, punto):
             posY = punto[1] - 1
             for y in range(3):
 
-                excesoX = 0 <= x < limitX
-                excesoY = 0 <= y < limitY
-                excesoZ = 0 <= z < limitZ
+                excesoX = 0 <= posX < limitX
+                excesoY = 0 <= posY < limitY
+                excesoZ = 0 <= posZ < limitZ
                 noIgual = posX != punto[0] or posY != punto[1] or posZ != punto[2]
                 if excesoX and excesoY and excesoZ and noIgual:
                     puntoNuevo = [posX, posY, posZ]

@@ -39,25 +39,29 @@ def traduccirDiccionarioVERDADERO2(diccionario: dict):
 print("Creando el campo de arista 100...")
 campo=obtenerCampo(100) #matriz de 100x100x100
 print("Creando obstáculos...")
-#puntosCubos=obtenerPuntosOrigenCubo(campo,N=120,arista=14)#N numero de obstaculos y arista es la arista de cada cubo obstaculo
-#diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=14)
-diccionarioCumulos=obtenerDiccionarioCumulos(campo,100,8)
+cantCubos = 100
+arista = 7
+puntosCubos=obtenerPuntosOrigenCubo(campo,N=cantCubos,arista=arista)#N numero de obstaculos y arista es la arista de cada cubo obstaculo
+diccionarioCubos: dict=obtenerDiccionarioCubos(puntosCubos,arista=arista)
+diccionarioCumulos=obtenerDiccionarioCumulos(campo,cantCubos,8)
 print("Insertando obstáculos al campo...")
-#insertarObstaculosCubosMatrix(campo,diccionarioCubos)
-insertarObstaculosCumulos(array3d=campo,dicCumulos=diccionarioCumulos)
-puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO2(diccionarioCumulos)
+insertarObstaculosCubosMatrix(campo,diccionarioCubos)
+#insertarObstaculosCumulos(array3d=campo,dicCumulos=diccionarioCumulos)
+puntosCubitos, colorCubos = traduccirDiccionarioVERDADERO(diccionarioCubos)
 
-print("Crando grafo asociado a la matriz...")
-t1=time()
-grafoAsociado=crearGrafo(campo)
-t2=time()
-print("Tiempo de creación del grafo asociado: {}".format(t2-t1))
+#print("Crando grafo asociado a la matriz...")
+#t1=time()
+#grafoAsociado=crearGrafo(campo)
+#t2=time()
+#print("Tiempo de creación del grafo asociado: {}".format(t2-t1))
 
-print("Obteniendo ruta usando algoritmo A*...")
+print("Obteniendo ruta usando algoritmo personalizado...")
+campoClon = campo.copy()
 t1=time()
-puntosRuta=obtenerRutaAStar(grafoAsociado,(0,0,0),(99,99,99),3)#el 3 hace referencia a la dimension del arreglo asociado
+
+puntosRuta=calcularRutaAlt(campoClon,[0,0,0],[99,99,99])
 t2=time()
-print("Tiempo de ejecución de A*: {}".format(t2-t1))
+print("Tiempo de ejecución de personalizado: {}".format(t2-t1))
 
 colorRuta = np.array([[0, 0, 0]] * len(puntosRuta))
 
