@@ -179,11 +179,11 @@ def productoPunto(pI, pD):
 
 def vectorizar(puntoAnterio, puntoActual, puntoPrueba):
 
-    arrAnt = np.array(puntoAnterio)
-    arrAct = np.array(puntoActual)
-    arrPrue = np.array(puntoPrueba)
+    arrAnt = np.array(puntoAnterio) #O(1)
+    arrAct = np.array(puntoActual) #O(1)
+    arrPrue = np.array(puntoPrueba) #O(1)
 
-    return [arrAct-arrAnt, arrPrue-arrAct]
+    return [arrAct-arrAnt, arrPrue-arrAct] #O(1)
 
 def calcularDistancia(puntoInicio:list, puntoDestino:list):
 
@@ -195,38 +195,40 @@ def calcularDistancia(puntoInicio:list, puntoDestino:list):
 
 def calcularRuta(campo3D, puntoInicio:list, puntoFin:list):
 
-    puntoAnt:list = puntoInicio
-    puntoActual:list = puntoInicio
+    puntoAnt:list = puntoInicio #O(1)
+    puntoActual:list = puntoInicio #O(1)
 
-    ruta:list = []
+    ruta:list = [] #O(1)
     veces = 0
-    while puntoActual != puntoFin:
+    while puntoActual != puntoFin: #O(n)
 
-        ruta.append(puntoActual)
-        puntosVecinos: list = buscarVecinos2(campo3D, puntoActual)
+        ruta.append(puntoActual) #n*O(1) -> #O(n)
+        puntosVecinos: list = buscarVecinos2(campo3D, puntoActual) #n*O(27) -> #O(n)
+        #PuntosVecinos tiene 26 puntos (son los vecinos)
+        listaPuntos = list() #n*O(1) -> #O(n)
 
-        listaPuntos = list()
+        for puntoPrueba in puntosVecinos: #n*O(26) -> O(26n) -> #O(n)
 
-        for puntoPrueba in puntosVecinos:
+            vectores: list = vectorizar(puntoAnt, puntoActual, puntoPrueba) #n*O(1) -> #O(n)
+            pUno: list = vectores[0] #n*O(1) -> #O(n)
+            pDos: list = vectores[1] #n*O(1) -> #O(n)
+            avance: bool = productoPunto(pUno, pDos) >= 0 #n*O(1) -> #O(n)
+            disponble: bool = campo3D[puntoPrueba[0], puntoPrueba[1], puntoPrueba[2]] == 0 #n*O(1) -> #O(n)
+            if avance and disponble: #n*O(1) -> #O(n)
+                    distancia = calcularDistancia(puntoPrueba, puntoFin) #n*O(1) -> #O(n)
+                    tupla: tuple = (distancia, puntoPrueba) #n*O(1) -> #O(n)
+                    if tupla not in listaPuntos: listaPuntos.append(tupla) #n*O(1) -> #O(n)
 
-            vectores: list = vectorizar(puntoAnt, puntoActual, puntoPrueba)
-            pUno: list = vectores[0]
-            pDos: list = vectores[1]
-            avance: bool = productoPunto(pUno, pDos) >= 0
-            disponble: bool = campo3D[puntoPrueba[0], puntoPrueba[1], puntoPrueba[2]] == 0
-            if avance and disponble:
+        listaPuntos.sort(reverse=True) #n*O(nlong(n)) -> O((n^2)long(n))
+        puntoMasCercano: list = list(listaPuntos.pop()[1]) #n*O(1) -> #O(n)
 
-                    distancia = calcularDistancia(puntoPrueba, puntoFin)
-                    tupla: tuple = (distancia, puntoPrueba)
-                    if tupla not in listaPuntos: listaPuntos.append(tupla)
+        puntoAnt = puntoActual #n*O(1) -> #O(n)
+        puntoActual = puntoMasCercano #n*O(1) -> #O(n)
+        veces+=1 #n*O(1) -> #O(n)
+    ruta.append(tuple(puntoFin)) #O(1)
 
-        listaPuntos.sort(reverse=True)
-        puntoMasCercano: list = list(listaPuntos.pop()[1])
+    #Tiempo estimado del algoritmo =>> O((n^2)long(n))
 
-        puntoAnt = puntoActual
-        puntoActual = puntoMasCercano
-        veces+=1
-    ruta.append(tuple(puntoFin))
     return ruta
 
 def calcularRutaAlt(campo3D, puntoInicio:list, puntoFin:list):
